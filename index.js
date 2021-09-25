@@ -1,8 +1,9 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const server = express()
-const bodyParser = require("body-parser")
 const port = 3000
+
+require("dotenv").config()
 
 const condidats = require("./routes/api/condidats")
 const employees = require("./routes/api/employees")
@@ -13,11 +14,9 @@ server.use(express.urlencoded({ limit: '25mb', extended: true }));
 
 // Connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://testtest:testtest@database.qe6vj.mongodb.net/webapp?retryWrites=true&w=majority",
+  process.env.DATABASE,
   {
     useNewUrlParser: true,
-    // useFindAndModify: false,
-    // useCreateIndex: true,
     useUnifiedTopology: true
   }
 ).then(() => console.log("Datebase successfully connected"))
