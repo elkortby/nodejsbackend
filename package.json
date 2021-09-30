@@ -1,18 +1,20 @@
 {
   "name": "webapp",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "netlify-lambda serve functions",
-    "build": "netlify-lambda build functions"
+    "start": "nodemon index.js"
   },
   "author": "oussama benkortbi",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
