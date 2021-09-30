@@ -59,7 +59,7 @@ server.post("/login", (req, res) => {
 					}, (err, token) => {
 						res.send({
 							login: true,
-							token: token
+							token: "Barrer " + token
 						})
 					})
 					
@@ -72,18 +72,38 @@ server.post("/login", (req, res) => {
 	.catch(console.error)
 })
 
-server.post("/register", (req, res) => {
-	bcrypt.genSalt(10, (err, salt) => {
-		bcrypt.hash(req.body.password, salt, (err, hash) => {
-			const newUser = new RH({
-				email: req.body.email.toLowerCase(),
-				password: hash
-			})
-			newUser.save()
-			.then(() => res.send("success"))
-			.catch(console.error)
-		})
-	})
+server.post("/handleRating", async (req, res) => {
+	try {
+		const user = await Rh.findOne({ _id: req.body._id })
+		if (user.rating) {
+			console.log(user.rating)
+			// user.rating = user.rating + (req.body.rating / user.raters)
+		} else user.rating = req.body.rating
+		if (user.raters) {
+			user.raters = user.raters + 1
+		} else user.raters = 1
+		await user.save()
+		res.send("Success")
+		// new rating = old + req rating / rater
+	} catch (error) {
+		console.log(error)
+	}
+})
+
+server.post("/getRating", async (req, res) => {
+	try {
+		const user = await Rh.findOne({ _id: req.body._id })
+		if (user) {
+			const rating = user.rating
+			console.log(rating)
+			res.status(200).send({ rating: rating})
+		} else {
+			res.status(400).send("error")
+		}
+		// new rating = old + req rating / rater
+	} catch (error) {
+		console.log(error)
+	}
 })
 
 module.exports = server;
