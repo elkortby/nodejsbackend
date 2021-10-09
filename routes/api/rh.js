@@ -106,4 +106,18 @@ server.post("/getRating", async (req, res) => {
 	}
 })
 
+server.post("/getData", async (req, res) => {
+	try {
+		const user = await Rh.findOne({ _id: req.body._id }, { password: 0 })
+		res.send(user)
+	} catch (error) {
+		res.send(error)
+	}
+})
+
+server.post("/timeInPage", async (req, res) => {
+	console.log(req.body.timeInPage)
+	res.send("success")
+})
+
 module.exports = server;
